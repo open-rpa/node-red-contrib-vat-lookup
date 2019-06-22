@@ -15,7 +15,9 @@
     "type": "git",
     "url": "git+https://github.com/open-rpa/node-red-contrib-vat-lookup.git"
   },
-  "keywords": [],
+  "keywords": [
+    "node-red"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
