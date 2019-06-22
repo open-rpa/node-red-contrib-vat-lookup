@@ -24,6 +24,7 @@ class vat_lookup {
             if (msg.vatnumber !== null && msg.vatnumber !== undefined && msg.vatnumber !== "") {
                 this.config.vatnumber = msg.vatnumber;
             }
+            console.log("vat_lookup countrycode:" + this.config.countrycode + " vatnumber: " + this.config.vatnumber);
             this.node.status({ fill: "blue", shape: "dot", text: "Validating" });
             validate(this.config.countrycode, this.config.vatnumber, (error, validationInfo) => {
                 if (error) {
