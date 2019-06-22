@@ -21,5 +21,10 @@
   "bugs": {
     "url": "https://github.com/open-rpa/node-red-contrib-vat-lookup/issues"
   },
-  "homepage": "https://github.com/open-rpa/node-red-contrib-vat-lookup#readme"
+  "homepage": "https://github.com/open-rpa/node-red-contrib-vat-lookup#readme",
+  "node-red": {
+    "nodes": {
+      "vat-lookup": "dist/vat.js"
+    }
+  }
 }
