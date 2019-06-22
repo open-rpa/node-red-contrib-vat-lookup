@@ -22,7 +22,7 @@ export class vat_lookup {
         try {
             this.node.status({});
 
-            if (msg.country !== null && msg.country !== undefined && msg.country !== "") { this.config.countrycode = msg.countrycode; }
+            if (msg.countrycode !== null && msg.countrycode !== undefined && msg.countrycode !== "") { this.config.countrycode = msg.countrycode; }
             if (msg.vatnumber !== null && msg.vatnumber !== undefined && msg.vatnumber !== "") { this.config.vatnumber = msg.vatnumber; }
 
             this.node.status({ fill: "blue", shape: "dot", text: "Validating" });

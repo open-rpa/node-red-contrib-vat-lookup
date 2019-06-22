@@ -18,7 +18,7 @@ class vat_lookup {
     async oninput(msg) {
         try {
             this.node.status({});
-            if (msg.country !== null && msg.country !== undefined && msg.country !== "") {
+            if (msg.countrycode !== null && msg.countrycode !== undefined && msg.countrycode !== "") {
                 this.config.countrycode = msg.countrycode;
             }
             if (msg.vatnumber !== null && msg.vatnumber !== undefined && msg.vatnumber !== "") {
