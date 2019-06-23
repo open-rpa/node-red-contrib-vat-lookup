@@ -4,7 +4,7 @@
   "description": "\"# node-red-contrib-vat-lookup\"",
   "main": "dist/vat.js",
   "dependencies": {
-    "node-red": "^0.20.6",
+    "@types/node-red": "^0.20.0",
     "validate-vat": "^0.5.1"
   },
   "devDependencies": {},

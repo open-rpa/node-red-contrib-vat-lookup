@@ -1,5 +1,7 @@
-import * as RED from "node-red";
-import { Red } from "node-red";
+// import * as RED from "node-red";
+// import { Red } from "node-red";
+
+declare var RED: any;
 import * as validate from "validate-vat";
 
 export interface Ivat_lookup {
@@ -7,7 +9,8 @@ export interface Ivat_lookup {
     vatnumber: string;
 }
 export class vat_lookup {
-    public node: Red = null;
+
+    public node: any = null;
     public name: string = "";
     constructor(public config: Ivat_lookup) {
         RED.nodes.createNode(this, config);
@@ -37,7 +40,7 @@ export class vat_lookup {
             this.HandleError(this, error);
         }
     }
-    public HandleError(node: Red, error: any): void {
+    public HandleError(node: any, error: any): void {
         console.error(error);
         var message: string = error;
         try {
