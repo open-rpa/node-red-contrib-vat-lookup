@@ -1,6 +1,7 @@
 "use strict";
+// import * as RED from "node-red";
+// import { Red } from "node-red";
 Object.defineProperty(exports, "__esModule", { value: true });
-const RED = require("node-red");
 const validate = require("validate-vat");
 class vat_lookup {
     constructor(config) {
@@ -23,6 +24,12 @@ class vat_lookup {
             }
             if (msg.vatnumber !== null && msg.vatnumber !== undefined && msg.vatnumber !== "") {
                 this.config.vatnumber = msg.vatnumber;
+            }
+            if (msg.payload !== null && msg.payload.countrycode !== null && msg.payload.countrycode !== undefined && msg.payload.countrycode !== "") {
+                this.config.countrycode = msg.payload.countrycode;
+            }
+            if (msg.payload !== null && msg.payload.vatnumber !== null && msg.payload.vatnumber !== undefined && msg.payload.vatnumber !== "") {
+                this.config.vatnumber = msg.payload.vatnumber;
             }
             console.log("vat_lookup countrycode:" + this.config.countrycode + " vatnumber: " + this.config.vatnumber);
             this.node.status({ fill: "blue", shape: "dot", text: "Validating" });
