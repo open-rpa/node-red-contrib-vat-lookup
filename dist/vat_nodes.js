@@ -1,7 +1,7 @@
 "use strict";
-// import * as RED from "node-red";
-// import { Red } from "node-red";
 Object.defineProperty(exports, "__esModule", { value: true });
+const RED = require("node-red");
+// declare var RED: any;
 const validate = require("validate-vat");
 class vat_lookup {
     constructor(config) {

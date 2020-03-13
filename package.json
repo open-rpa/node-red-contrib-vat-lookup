@@ -1,10 +1,11 @@
 {
   "name": "node-red-contrib-vat-lookup",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "\"# node-red-contrib-vat-lookup\"",
   "main": "dist/vat.js",
   "dependencies": {
-    "@types/node-red": "^0.20.0",
+    "@types/node": "^13.9.1",
+    "@types/node-red": "^0.20.1",
     "validate-vat": "^0.5.1"
   },
   "devDependencies": {},
