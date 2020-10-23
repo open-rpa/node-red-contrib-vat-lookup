@@ -1,7 +1,7 @@
-import * as RED from "node-red";
-import { Red } from "node-red";
+// import * as RED from "node-red";
+// import { Red } from "node-red";
 
-// declare var RED: any;
+declare var RED: any;
 import * as validate from "validate-vat";
 
 export interface Ivat_lookup {
@@ -25,14 +25,17 @@ export class vat_lookup {
         try {
             this.node.status({});
 
-            if (msg.countrycode !== null && msg.countrycode !== undefined && msg.countrycode !== "") { this.config.countrycode = msg.countrycode; }
-            if (msg.vatnumber !== null && msg.vatnumber !== undefined && msg.vatnumber !== "") { this.config.vatnumber = msg.vatnumber; }
-            if (msg.payload !== null && msg.payload.countrycode !== null && msg.payload.countrycode !== undefined && msg.payload.countrycode !== "") { this.config.countrycode = msg.payload.countrycode; }
-            if (msg.payload !== null && msg.payload.vatnumber !== null && msg.payload.vatnumber !== undefined && msg.payload.vatnumber !== "") { this.config.vatnumber = msg.payload.vatnumber; }
+            let countrycode = this.config.countrycode;
+            let vatnumber = this.config.vatnumber;
 
-            console.log("vat_lookup countrycode:" + this.config.countrycode + " vatnumber: " + this.config.vatnumber);
+            if (msg.countrycode !== null && msg.countrycode !== undefined && msg.countrycode !== "") { countrycode = msg.countrycode; }
+            if (msg.vatnumber !== null && msg.vatnumber !== undefined && msg.vatnumber !== "") { vatnumber = msg.vatnumber; }
+            if (msg.payload !== null && msg.payload.countrycode !== null && msg.payload.countrycode !== undefined && msg.payload.countrycode !== "") { countrycode = msg.payload.countrycode; }
+            if (msg.payload !== null && msg.payload.vatnumber !== null && msg.payload.vatnumber !== undefined && msg.payload.vatnumber !== "") { vatnumber = msg.payload.vatnumber; }
+
+            console.log("vat_lookup countrycode:" + countrycode + " vatnumber: " + vatnumber);
             this.node.status({ fill: "blue", shape: "dot", text: "Validating" });
-            validate(this.config.countrycode, this.config.vatnumber, (error, validationInfo) => {
+            validate(countrycode, vatnumber, (error, validationInfo) => {
                 if (error) { return this.HandleError(this, error); }
                 this.node.status({});
                 msg.payload = validationInfo;

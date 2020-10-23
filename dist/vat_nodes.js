@@ -1,7 +1,8 @@
 "use strict";
+// import * as RED from "node-red";
+// import { Red } from "node-red";
 Object.defineProperty(exports, "__esModule", { value: true });
-const RED = require("node-red");
-// declare var RED: any;
+exports.vat_lookup = void 0;
 const validate = require("validate-vat");
 class vat_lookup {
     constructor(config) {
@@ -19,21 +20,23 @@ class vat_lookup {
     async oninput(msg) {
         try {
             this.node.status({});
+            let countrycode = this.config.countrycode;
+            let vatnumber = this.config.vatnumber;
             if (msg.countrycode !== null && msg.countrycode !== undefined && msg.countrycode !== "") {
-                this.config.countrycode = msg.countrycode;
+                countrycode = msg.countrycode;
             }
             if (msg.vatnumber !== null && msg.vatnumber !== undefined && msg.vatnumber !== "") {
-                this.config.vatnumber = msg.vatnumber;
+                vatnumber = msg.vatnumber;
             }
             if (msg.payload !== null && msg.payload.countrycode !== null && msg.payload.countrycode !== undefined && msg.payload.countrycode !== "") {
-                this.config.countrycode = msg.payload.countrycode;
+                countrycode = msg.payload.countrycode;
             }
             if (msg.payload !== null && msg.payload.vatnumber !== null && msg.payload.vatnumber !== undefined && msg.payload.vatnumber !== "") {
-                this.config.vatnumber = msg.payload.vatnumber;
+                vatnumber = msg.payload.vatnumber;
             }
-            console.log("vat_lookup countrycode:" + this.config.countrycode + " vatnumber: " + this.config.vatnumber);
+            console.log("vat_lookup countrycode:" + countrycode + " vatnumber: " + vatnumber);
             this.node.status({ fill: "blue", shape: "dot", text: "Validating" });
-            validate(this.config.countrycode, this.config.vatnumber, (error, validationInfo) => {
+            validate(countrycode, vatnumber, (error, validationInfo) => {
                 if (error) {
                     return this.HandleError(this, error);
                 }
