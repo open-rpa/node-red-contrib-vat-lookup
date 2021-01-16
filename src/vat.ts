@@ -41,27 +41,31 @@ export = function (RED: Red) {
                 console.log("vat_lookup countrycode:" + countrycode + " vatnumber: " + vatnumber);
                 this.node.status({ fill: "blue", shape: "dot", text: "Validating" });
                 validate(countrycode, vatnumber, (error, validationInfo) => {
-                    if (error) { return this.HandleError(this, error); }
+                    if (error) { return this.HandleError(this, error, msg); }
                     this.node.status({});
                     msg.payload = validationInfo;
                     this.node.send(msg);
                 })
             } catch (error) {
-                this.HandleError(this, error);
+                this.HandleError(this, error, msg);
             }
         }
-        public HandleError(node: any, error: any): void {
+        public HandleError(node: any, error: any, msg: any): void {
             console.error(error);
             var message: string = error;
             try {
-                if (error.message) {
-                    message = error.message;
-                    //node.error(error, message);
-                    node.error(message, error);
-                } else {
-                    //node.error(error, message);
-                    node.error(message, error);
+                if (typeof error === 'string' || error instanceof String) {
+                    error = new Error(error as string);
                 }
+                node.error(error, msg);
+                // if (error.message) {
+                //     message = error.message;
+                //     //node.error(error, message);
+                //     node.error(message, error);
+                // } else {
+                //     //node.error(error, message);
+                //     node.error(message, error);
+                // }
             } catch (error) {
                 console.error(error);
             }

@@ -37,7 +37,7 @@ module.exports = function (RED) {
                 this.node.status({ fill: "blue", shape: "dot", text: "Validating" });
                 validate(countrycode, vatnumber, (error, validationInfo) => {
                     if (error) {
-                        return this.HandleError(this, error);
+                        return this.HandleError(this, error, msg);
                     }
                     this.node.status({});
                     msg.payload = validationInfo;
@@ -45,22 +45,25 @@ module.exports = function (RED) {
                 });
             }
             catch (error) {
-                this.HandleError(this, error);
+                this.HandleError(this, error, msg);
             }
         }
-        HandleError(node, error) {
+        HandleError(node, error, msg) {
             console.error(error);
             var message = error;
             try {
-                if (error.message) {
-                    message = error.message;
-                    //node.error(error, message);
-                    node.error(message, error);
+                if (typeof error === 'string' || error instanceof String) {
+                    error = new Error(error);
                 }
-                else {
-                    //node.error(error, message);
-                    node.error(message, error);
-                }
+                node.error(error, msg);
+                // if (error.message) {
+                //     message = error.message;
+                //     //node.error(error, message);
+                //     node.error(message, error);
+                // } else {
+                //     //node.error(error, message);
+                //     node.error(message, error);
+                // }
             }
             catch (error) {
                 console.error(error);
