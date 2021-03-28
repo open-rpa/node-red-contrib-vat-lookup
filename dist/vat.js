@@ -6,8 +6,6 @@ module.exports = function (RED) {
             this.config = config;
             this.node = null;
             this.name = "";
-            console.log("vat_lookup");
-            console.log(RED);
             RED.nodes.createNode(this, config);
             this.node = this;
             this.node.status({});
@@ -56,14 +54,6 @@ module.exports = function (RED) {
                     error = new Error(error);
                 }
                 node.error(error, msg);
-                // if (error.message) {
-                //     message = error.message;
-                //     //node.error(error, message);
-                //     node.error(message, error);
-                // } else {
-                //     //node.error(error, message);
-                //     node.error(message, error);
-                // }
             }
             catch (error) {
                 console.error(error);
@@ -81,9 +71,4 @@ module.exports = function (RED) {
     }
     RED.nodes.registerType("vat lookup", vat_lookup);
 };
-// import * as RED from "node-red";
-// import { Red } from "node-red";
-// import { Red } from "node-red";
-// declare var RED: any;
-// // declare var RED: any;
 //# sourceMappingURL=vat.js.map

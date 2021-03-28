@@ -1,12 +1,6 @@
 import { Red } from "node-red";
 import * as validate from "validate-vat";
-// import * as vat from "./vat_nodes";
-
-// declare var RED: any;
-// declare function fn(RED: Red): void;
-// export = fn;
 export = function (RED: Red) {
-
     interface Ivat_lookup {
         countrycode: string;
         vatnumber: string;
@@ -16,8 +10,6 @@ export = function (RED: Red) {
         public node: any = null;
         public name: string = "";
         constructor(public config: Ivat_lookup) {
-            console.log("vat_lookup");
-            console.log(RED);
             (RED as any).nodes.createNode(this, config);
             this.node = this;
             this.node.status({});
@@ -58,14 +50,6 @@ export = function (RED: Red) {
                     error = new Error(error as string);
                 }
                 node.error(error, msg);
-                // if (error.message) {
-                //     message = error.message;
-                //     //node.error(error, message);
-                //     node.error(message, error);
-                // } else {
-                //     //node.error(error, message);
-                //     node.error(message, error);
-                // }
             } catch (error) {
                 console.error(error);
             }
@@ -80,11 +64,3 @@ export = function (RED: Red) {
     }
     RED.nodes.registerType("vat lookup", (vat_lookup as any));
 }
-
-// import * as RED from "node-red";
-// import { Red } from "node-red";
-// import { Red } from "node-red";
-
-// declare var RED: any;
-// // declare var RED: any;
-
