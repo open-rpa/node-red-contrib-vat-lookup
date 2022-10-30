@@ -14,30 +14,41 @@ module.exports = function (RED) {
         isNumeric(num) {
             return !isNaN(num);
         }
+        static EvaluateNodeProperty(node, msg, name, ignoreerrors = false) {
+            return new Promise((resolve, reject) => {
+                const _name = node.config[name];
+                let _type = node.config[name + "type"];
+                if (_name == null)
+                    return resolve(null);
+                RED.util.evaluateNodeProperty(_name, _type, node, msg, (err, value) => {
+                    if (err && !ignoreerrors) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(value);
+                    }
+                });
+            });
+        }
+        static SetMessageProperty(msg, name, value) {
+            RED.util.setMessageProperty(msg, name, value);
+        }
         async oninput(msg) {
             try {
                 this.node.status({});
-                let countrycode = this.config.countrycode;
-                let vatnumber = this.config.vatnumber;
-                if (msg.countrycode !== null && msg.countrycode !== undefined && msg.countrycode !== "") {
-                    countrycode = msg.countrycode;
-                }
-                if (msg.vatnumber !== null && msg.vatnumber !== undefined && msg.vatnumber !== "") {
-                    vatnumber = msg.vatnumber;
-                }
-                if (msg.payload !== null && msg.payload.countrycode !== null && msg.payload.countrycode !== undefined && msg.payload.countrycode !== "") {
-                    countrycode = msg.payload.countrycode;
-                }
-                if (msg.payload !== null && msg.payload.vatnumber !== null && msg.payload.vatnumber !== undefined && msg.payload.vatnumber !== "") {
-                    vatnumber = msg.payload.vatnumber;
-                }
-                console.log("vat_lookup countrycode:" + countrycode + " vatnumber: " + vatnumber);
+                const countrycode = (await vat_lookup.EvaluateNodeProperty(this, msg, "countrycode")) || "";
+                const vatnumber = (await vat_lookup.EvaluateNodeProperty(this, msg, "vatnumber")) || "";
                 this.node.status({ fill: "blue", shape: "dot", text: "Validating" });
-                validate(countrycode, vatnumber, (error, validationInfo) => {
+                validate(countrycode, vatnumber.toString(), (error, validationInfo) => {
                     if (error) {
                         return this.HandleError(this, error, msg);
                     }
-                    this.node.status({});
+                    if (validationInfo && validationInfo.name && validationInfo.name != "") {
+                        this.node.status({ fill: "green", shape: "dot", text: validationInfo.name });
+                    }
+                    else {
+                        this.node.status({});
+                    }
                     msg.payload = validationInfo;
                     this.node.send(msg);
                 });

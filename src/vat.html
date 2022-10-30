@@ -1,47 +1,13 @@
 <script type="text/x-red" data-template-name="vat lookup">
     <div class="form-row">
-        <label ><i class="fa fa-tag"></i> Vat number</label>
-        <input type="text" id="node-input-vatnumber" placeholder="vatnumber">
+        <label><i class="fa fa-list"></i> Vat number</label>
+        <input type="hidden" id="node-input-vatnumbertype">
+        <input style="width:70%" type="text" id="node-input-vatnumber">
     </div>
-<!--
     <div class="form-row">
-        <label ><i class="fa fa-tag"></i> Country code</label>
-        <input type="text" id="node-input-countrycode" placeholder="countrycode">
-    </div>
--->
-    <div class="form-row">
-        <label ><i class="fa fa-tag"></i> Country code</label>
-        <select id="node-input-countrycode-select">
-            <option value="AT" >AT</option>
-            <option value="BE" >BE</option>
-            <option value="BG" >BG</option>
-            <option value="CY" >CY</option>
-            <option value="CZ" >CZ</option>
-            <option value="DE" >DE</option>
-            <option value="DK" >DK</option>
-            <option value="EE" >EE</option>
-            <option value="EL" >EL</option>
-            <option value="ES" >ES</option>
-            <option value="FI" >FI</option>
-            <option value="FR" >FR</option>
-            <option value="GB" >GB</option>
-            <option value="HR" >HR</option>
-            <option value="HU" >HU</option>
-            <option value="IE" >IE</option>
-            <option value="IT" >IT</option>
-            <option value="LT" >LT</option>
-            <option value="LU" >LU</option>
-            <option value="LV" >LV</option>
-            <option value="MT" >MT</option>
-            <option value="NL" >NL</option>
-            <option value="PL" >PL</option>
-            <option value="PT" >PT</option>
-            <option value="SE" >SE</option>
-            <option value="SI" >SI</option>
-            <option value="SK" >SK</option>
-            <option value="RO" >RO</option>
-        </select>
-        <input id="node-input-countrycode" type="hidden">
+        <label><i class="fa fa-list"></i> Country code</label>
+        <input type="hidden" id="node-input-countrycodetype">
+        <input style="width:70%" type="text" id="node-input-countrycode">
     </div>
     <div class="form-row">
         <label ><i class="fa fa-tag"></i> Name</label>
@@ -56,8 +22,12 @@
         category: 'api',
         color: "#a6bbcf",
         defaults: {
-            vatnumber: { value: "", required: false },
-            countrycode: { value: "", required: false },
+            countrycodetype: { value: "str" },
+            countrycode: { value: "DK" },
+
+            vatnumbertype: { value: "msg" },
+            vatnumber: { value: "payload" },
+
             name: { value: "" },
         },
         inputs: 1,
@@ -70,11 +40,19 @@
             return this.name ? "node_label_italic" : "";
         },
         oneditprepare: function () {
-            $('#node-input-countrycode-select').val($('#node-input-countrycode').val());
+            if (this.countrycodetype === 'val') $("#node-input-countrycodetype").val('str');
+            $("#node-input-countrycode").typedInput({
+                default: 'str',
+                typeField: $("#node-input-countrycodetype"),
+                types: ['msg', 'str', 'flow', 'global', 'json']
+            });
+            if (this.vatnumbertype === 'val') $("#node-input-vatnumbertype").val('str');
+            $("#node-input-vatnumber").typedInput({
+                default: 'str',
+                typeField: $("#node-input-vatnumbertype"),
+                types: ['msg', 'str', 'flow', 'global', 'json']
+            });
         },
-        oneditsave: function () {
-            $('#node-input-countrycode').val($('#node-input-countrycode-select').val());
-        }
 
     });
 </script>

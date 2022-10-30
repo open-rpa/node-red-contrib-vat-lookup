@@ -5,13 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "node",
-            "request": "attach",
-            "name": "Attach to localhost (OpenFlow)",
-            "address": "localhost",
-            "port": 5858,
-            "localRoot": "${workspaceFolder}/dist",
-            "remoteRoot": "/data/nodered/node_modules/node-red-contrib-vat-lookup/dist"
+            "name": "Launch via NPM",
+            "request": "launch",
+            "runtimeArgs": [
+                "run-script",
+                "debug"
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "pwa-node"
         }
     ]
 }

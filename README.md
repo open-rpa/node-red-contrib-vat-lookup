@@ -1,10 +1,8 @@
-Verify the validity of a VAT number issued by any European Union Member State
-
-"# node-red-contrib-vat-lookup" 
+"# node-red-contrib-tagui" 
 
 Install using npm
 ```
-npm i node-red-contrib-vat-lookup
+npm i node-red-contrib-tagui
 ```
-Basically just a wrapper around https://www.npmjs.com/package/validate-vat
+
 
